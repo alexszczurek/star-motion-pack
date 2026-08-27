@@ -28,13 +28,15 @@ function App() {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [isAuto, setIsAuto] = useState(false)
   const [speed, setSpeed] = useState(1)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  })
   const autoRef = useRef<number | null>(null)
   const transitionTimeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mq.matches)
     const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
     mq.addEventListener('change', handler)
     return () => mq.removeEventListener('change', handler)
