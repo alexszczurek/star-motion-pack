@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="star-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE87C"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FFB347"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD080"/>
+      <stop offset="100%" style="stop-color:#FF9F43"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(180,200)">
+    <!-- Lightning bolt -->
+    <path d="M100,-80 L70,-30 L90,-30 L50,40 L80,-10 L60,-10 L100,-80" fill="url(#bolt)" transform="translate(60,-40)"/>
+    <!-- Star body -->
+    <path d="M0,-120 Q40,-100 70,-70 Q100,-40 100,0 Q100,40 70,70 Q40,100 0,100 Q-40,100 -70,70 Q-100,40 -100,0 Q-100,-40 -70,-70 Q-40,-100 0,-120" 
+          fill="url(#star-body)"/>
+    <!-- Determined eyes - slanted -->
+    <g transform="rotate(-10)">
+      <ellipse cx="-35" cy="-10" rx="20" ry="16" fill="white"/>
+      <ellipse cx="-35" cy="-8" rx="10" ry="12" fill="#1a1a1a"/>
+    </g>
+    <g transform="rotate(10)">
+      <ellipse cx="35" cy="-10" rx="20" ry="16" fill="white"/>
+      <ellipse cx="35" cy="-8" rx="10" ry="12" fill="#1a1a1a"/>
+    </g>
+  </g>
+  <text x="200" y="380" text-anchor="middle" fill="#666" font-family="system-ui" font-size="14">PLACEHOLDER - Add 02-zap.png</text>
+</svg>

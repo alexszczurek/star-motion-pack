@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400">
+  <defs>
+    <linearGradient id="star-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE87C"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FFB347"/>
+    </linearGradient>
+    <linearGradient id="phone" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9F43"/>
+      <stop offset="100%" style="stop-color:#FF7F50"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(180,200)">
+    <!-- Phone -->
+    <rect x="120" y="-60" width="50" height="90" rx="8" fill="url(#phone)"/>
+    <!-- Chat bubbles -->
+    <rect x="180" y="-50" width="60" height="25" rx="6" fill="#FF9F43"/>
+    <rect x="190" y="-15" width="50" height="20" rx="5" fill="#FFB6C1"/>
+    <!-- Star body -->
+    <path d="M0,-120 Q40,-100 70,-70 Q100,-40 100,0 Q100,40 70,70 Q40,100 0,100 Q-40,100 -70,70 Q-100,40 -100,0 Q-100,-40 -70,-70 Q-40,-100 0,-120" 
+          fill="url(#star-body)"/>
+    <!-- Curious eyes -->
+    <ellipse cx="-35" cy="-10" rx="22" ry="28" fill="white"/>
+    <ellipse cx="35" cy="-10" rx="22" ry="28" fill="white"/>
+    <ellipse cx="-35" cy="-5" rx="12" ry="18" fill="#1a1a1a"/>
+    <ellipse cx="35" cy="-5" rx="12" ry="18" fill="#1a1a1a"/>
+  </g>
+  <text x="250" y="380" text-anchor="middle" fill="#666" font-family="system-ui" font-size="14">PLACEHOLDER - Add 04-ping.png</text>
+</svg>

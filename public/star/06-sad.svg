@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="star-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE87C"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FFB347"/>
+    </linearGradient>
+    <linearGradient id="tear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E0F0FF"/>
+      <stop offset="50%" style="stop-color:#B0D4F1"/>
+      <stop offset="100%" style="stop-color:#88CCFF"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(180,200)">
+    <!-- Teardrop -->
+    <path d="M100,-20 Q90,10 100,30 Q110,10 100,-20" fill="url(#tear)" transform="translate(20,0) scale(1.3)"/>
+    <!-- Star body -->
+    <path d="M0,-120 Q40,-100 70,-70 Q100,-40 100,0 Q100,40 70,70 Q40,100 0,100 Q-40,100 -70,70 Q-100,40 -100,0 Q-100,-40 -70,-70 Q-40,-100 0,-120" 
+          fill="url(#star-body)"/>
+    <!-- Closed sad eyes -->
+    <path d="M-50,-5 Q-35,-20 -20,-5" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+    <path d="M20,-5 Q35,-20 50,-5" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+    <!-- Frown -->
+    <path d="M-15,35 Q0,25 15,35" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="200" y="380" text-anchor="middle" fill="#666" font-family="system-ui" font-size="14">PLACEHOLDER - Add 06-sad.png</text>
+</svg>

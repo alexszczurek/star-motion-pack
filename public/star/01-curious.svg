@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="star-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE87C"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FFB347"/>
+    </linearGradient>
+    <linearGradient id="pink-edge" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(200,200)">
+    <!-- Star body - rounded 5-point blob -->
+    <path d="M0,-120 Q40,-100 70,-70 Q100,-40 100,0 Q100,40 70,70 Q40,100 0,100 Q-40,100 -70,70 Q-100,40 -100,0 Q-100,-40 -70,-70 Q-40,-100 0,-120" 
+          fill="url(#star-body)" stroke="url(#pink-edge)" stroke-width="8"/>
+    <!-- Eyes - white ovals -->
+    <ellipse cx="-35" cy="-10" rx="22" ry="28" fill="white"/>
+    <ellipse cx="35" cy="-10" rx="22" ry="28" fill="white"/>
+    <!-- Pupils -->
+    <ellipse cx="-35" cy="-5" rx="12" ry="18" fill="#1a1a1a"/>
+    <ellipse cx="35" cy="-5" rx="12" ry="18" fill="#1a1a1a"/>
+  </g>
+  <text x="200" y="380" text-anchor="middle" fill="#666" font-family="system-ui" font-size="14">PLACEHOLDER - Add 01-curious.png</text>
+</svg>

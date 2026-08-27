@@ -1,0 +1,169 @@
+import { useState, useEffect, useCallback, useRef } from 'react'
+import './App.css'
+
+type Mood = 'Curious' | 'Zap' | 'Sweat' | 'Ping' | 'Soft' | 'Sad'
+
+const MOODS: Mood[] = ['Curious', 'Zap', 'Sweat', 'Ping', 'Soft', 'Sad']
+
+const MOOD_IMAGES: Record<Mood, string> = {
+  Curious: '/star/01-curious.svg',
+  Zap: '/star/02-zap.svg',
+  Sweat: '/star/03-sweat.svg',
+  Ping: '/star/04-ping.svg',
+  Soft: '/star/05-soft.svg',
+  Sad: '/star/06-sad.svg',
+}
+
+const MOOD_CLASSES: Record<Mood, string> = {
+  Curious: 'idle-curious',
+  Zap: 'idle-zap',
+  Sweat: 'idle-sweat',
+  Ping: 'idle-ping',
+  Soft: 'idle-soft',
+  Sad: 'idle-sad',
+}
+
+function App() {
+  const [mood, setMood] = useState<Mood>('Curious')
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isAuto, setIsAuto] = useState(false)
+  const [speed, setSpeed] = useState(1)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const autoRef = useRef<number | null>(null)
+  const transitionTimeoutRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--speed', String(speed))
+  }, [speed])
+
+  useEffect(() => {
+    Object.values(MOOD_IMAGES).forEach((src) => {
+      const img = new Image()
+      img.src = src
+    })
+  }, [])
+
+  const switchMood = useCallback((newMood: Mood) => {
+    if (newMood === mood && !isTransitioning) return
+    
+    setIsTransitioning(true)
+    
+    if (transitionTimeoutRef.current) {
+      clearTimeout(transitionTimeoutRef.current)
+    }
+
+    const transitionMs = prefersReducedMotion ? 10 : 350 / speed
+    
+    transitionTimeoutRef.current = window.setTimeout(() => {
+      setMood(newMood)
+      setIsTransitioning(false)
+    }, transitionMs * 0.5)
+  }, [mood, isTransitioning, speed, prefersReducedMotion])
+
+  useEffect(() => {
+    if (!isAuto) {
+      if (autoRef.current) {
+        clearInterval(autoRef.current)
+        autoRef.current = null
+      }
+      return
+    }
+
+    const intervalMs = 2200 / speed
+
+    autoRef.current = window.setInterval(() => {
+      setMood((current) => {
+        const currentIndex = MOODS.indexOf(current)
+        const nextIndex = (currentIndex + 1) % MOODS.length
+        setIsTransitioning(true)
+        
+        const transitionMs = prefersReducedMotion ? 10 : 350 / speed
+        setTimeout(() => setIsTransitioning(false), transitionMs)
+        
+        return MOODS[nextIndex]
+      })
+    }, intervalMs)
+
+    return () => {
+      if (autoRef.current) {
+        clearInterval(autoRef.current)
+        autoRef.current = null
+      }
+    }
+  }, [isAuto, speed, prefersReducedMotion])
+
+  const handleMoodClick = (newMood: Mood) => {
+    if (isAuto) setIsAuto(false)
+    switchMood(newMood)
+  }
+
+  const starClasses = [
+    'star',
+    isTransitioning ? 'squash' : '',
+    !prefersReducedMotion && !isTransitioning ? MOOD_CLASSES[mood] : '',
+  ].filter(Boolean).join(' ')
+
+  return (
+    <div className="stage">
+      <div className="star-container">
+        <div className={starClasses}>
+          <img
+            src={MOOD_IMAGES[mood]}
+            alt={`Star in ${mood} mood`}
+            draggable={false}
+          />
+        </div>
+        <p className="caption">{mood}</p>
+      </div>
+
+      <div className="controls">
+        <div className="mood-buttons">
+          {MOODS.map((m) => (
+            <button
+              key={m}
+              className={`mood-btn ${mood === m ? 'active' : ''}`}
+              onClick={() => handleMoodClick(m)}
+              type="button"
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+
+        <div className="auto-speed">
+          <button
+            className={`auto-btn ${isAuto ? 'active' : ''}`}
+            onClick={() => setIsAuto(!isAuto)}
+            type="button"
+          >
+            Auto
+          </button>
+
+          <div className="speed-control">
+            <label htmlFor="speed">Speed</label>
+            <input
+              id="speed"
+              type="range"
+              min="0.6"
+              max="1.6"
+              step="0.1"
+              value={speed}
+              onChange={(e) => setSpeed(parseFloat(e.target.value))}
+            />
+            <span className="speed-value">{speed.toFixed(1)}x</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default App
