@@ -1,27 +1,29 @@
-import { useState, useEffect, useRef } from 'react'
-import './App.css'
+import { useState, useEffect, useRef } from "react"
+import "./App.css"
 
-type Mood = 'Curious' | 'Zap' | 'Sweat' | 'Ping' | 'Soft' | 'Sad'
+type Mood = "Curious" | "Zap" | "Sweat" | "Ping" | "Soft" | "Sad"
 
-const MOODS: Mood[] = ['Curious', 'Zap', 'Sweat', 'Ping', 'Soft', 'Sad']
+const MOODS: Mood[] = ["Curious", "Zap", "Sweat", "Ping", "Soft", "Sad"]
 
 const MOOD_IMAGES: Record<Mood, string> = {
-  Curious: '/star/01-curious.png',
-  Zap: '/star/02-zap.png',
-  Sweat: '/star/03-sweat.png',
-  Ping: '/star/04-ping.png',
-  Soft: '/star/05-soft.png',
-  Sad: '/star/06-sad.png',
+  Curious: "/star/01-curious.png",
+  Zap: "/star/02-zap.png",
+  Sweat: "/star/03-sweat.png",
+  Ping: "/star/04-ping.png",
+  Soft: "/star/05-soft.png",
+  Sad: "/star/06-sad.png",
 }
 
 function App() {
-  const [mood, setMood] = useState<Mood>('Curious')
+  const [mood, setMood] = useState<Mood>("Curious")
   const [isAuto, setIsAuto] = useState(false)
   const [speed, setSpeed] = useState(1)
+  const [pop, setPop] = useState(false)
   const autoRef = useRef<number | null>(null)
+  const firstMood = useRef(true)
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--speed', String(speed))
+    document.documentElement.style.setProperty("--speed", String(speed))
   }, [speed])
 
   useEffect(() => {
@@ -30,6 +32,16 @@ function App() {
       img.src = src
     })
   }, [])
+
+  useEffect(() => {
+    if (firstMood.current) {
+      firstMood.current = false
+      return
+    }
+    setPop(true)
+    const t = window.setTimeout(() => setPop(false), 720)
+    return () => window.clearTimeout(t)
+  }, [mood])
 
   useEffect(() => {
     if (!isAuto) {
@@ -59,18 +71,26 @@ function App() {
   }
 
   return (
-    <div className="stage">
+    <div className="stage" data-mood={mood.toLowerCase()}>
       <div className="star-container">
-        <div className="star">
+        <div className={pop ? "star pop" : "star"} data-mood={mood.toLowerCase()}>
           {MOODS.map((m) => (
             <img
               key={m}
               src={MOOD_IMAGES[m]}
               alt=""
-              className={`face face-${m.toLowerCase()}${m === mood ? ' on' : ''}`}
+              className={"face face-" + m.toLowerCase() + (m === mood ? " on" : "")}
               draggable={false}
             />
           ))}
+          <div className="fx" aria-hidden>
+            <span className="bit" />
+            <span className="bit" />
+            <span className="bit" />
+            <span className="bit" />
+            <span className="bit" />
+            <span className="bit" />
+          </div>
         </div>
         <p className="caption">{mood}</p>
       </div>
@@ -80,7 +100,7 @@ function App() {
           {MOODS.map((m) => (
             <button
               key={m}
-              className={`mood-btn ${mood === m ? 'active' : ''}`}
+              className={"mood-btn" + (mood === m ? " active" : "")}
               onClick={() => handleMoodClick(m)}
               type="button"
             >
@@ -91,7 +111,7 @@ function App() {
 
         <div className="auto-speed">
           <button
-            className={`auto-btn ${isAuto ? 'active' : ''}`}
+            className={"auto-btn" + (isAuto ? " active" : "")}
             onClick={() => setIsAuto(!isAuto)}
             type="button"
           >
