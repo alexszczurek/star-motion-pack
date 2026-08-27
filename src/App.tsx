@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 type Mood = 'Curious' | 'Zap' | 'Sweat' | 'Ping' | 'Soft' | 'Sad'
@@ -25,7 +25,6 @@ const MOOD_CLASSES: Record<Mood, string> = {
 
 function App() {
   const [mood, setMood] = useState<Mood>('Curious')
-  const [isTransitioning, setIsTransitioning] = useState(false)
   const [isAuto, setIsAuto] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
@@ -33,7 +32,6 @@ function App() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches
   })
   const autoRef = useRef<number | null>(null)
-  const transitionTimeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -53,23 +51,6 @@ function App() {
     })
   }, [])
 
-  const switchMood = useCallback((newMood: Mood) => {
-    if (newMood === mood && !isTransitioning) return
-    
-    setIsTransitioning(true)
-    
-    if (transitionTimeoutRef.current) {
-      clearTimeout(transitionTimeoutRef.current)
-    }
-
-    const transitionMs = prefersReducedMotion ? 10 : 350 / speed
-    
-    transitionTimeoutRef.current = window.setTimeout(() => {
-      setMood(newMood)
-      setIsTransitioning(false)
-    }, transitionMs * 0.5)
-  }, [mood, isTransitioning, speed, prefersReducedMotion])
-
   useEffect(() => {
     if (!isAuto) {
       if (autoRef.current) {
@@ -79,19 +60,9 @@ function App() {
       return
     }
 
-    const intervalMs = 2200 / speed
-
+    const intervalMs = 2400 / speed
     autoRef.current = window.setInterval(() => {
-      setMood((current) => {
-        const currentIndex = MOODS.indexOf(current)
-        const nextIndex = (currentIndex + 1) % MOODS.length
-        setIsTransitioning(true)
-        
-        const transitionMs = prefersReducedMotion ? 10 : 350 / speed
-        setTimeout(() => setIsTransitioning(false), transitionMs)
-        
-        return MOODS[nextIndex]
-      })
+      setMood((current) => MOODS[(MOODS.indexOf(current) + 1) % MOODS.length])
     }, intervalMs)
 
     return () => {
@@ -100,28 +71,31 @@ function App() {
         autoRef.current = null
       }
     }
-  }, [isAuto, speed, prefersReducedMotion])
+  }, [isAuto, speed])
 
   const handleMoodClick = (newMood: Mood) => {
     if (isAuto) setIsAuto(false)
-    switchMood(newMood)
+    setMood(newMood)
   }
 
   const starClasses = [
     'star',
-    isTransitioning ? 'squash' : '',
-    !prefersReducedMotion && !isTransitioning ? MOOD_CLASSES[mood] : '',
+    !prefersReducedMotion ? MOOD_CLASSES[mood] : '',
   ].filter(Boolean).join(' ')
 
   return (
     <div className="stage">
       <div className="star-container">
         <div className={starClasses}>
-          <img
-            src={MOOD_IMAGES[mood]}
-            alt={`Star in ${mood} mood`}
-            draggable={false}
-          />
+          {MOODS.map((m) => (
+            <img
+              key={m}
+              src={MOOD_IMAGES[m]}
+              alt=""
+              className={m === mood ? 'on' : ''}
+              draggable={false}
+            />
+          ))}
         </div>
         <p className="caption">{mood}</p>
       </div>
