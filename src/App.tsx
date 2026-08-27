@@ -6,12 +6,12 @@ type Mood = 'Curious' | 'Zap' | 'Sweat' | 'Ping' | 'Soft' | 'Sad'
 const MOODS: Mood[] = ['Curious', 'Zap', 'Sweat', 'Ping', 'Soft', 'Sad']
 
 const MOOD_IMAGES: Record<Mood, string> = {
-  Curious: '/star/01-curious.svg',
-  Zap: '/star/02-zap.svg',
-  Sweat: '/star/03-sweat.svg',
-  Ping: '/star/04-ping.svg',
-  Soft: '/star/05-soft.svg',
-  Sad: '/star/06-sad.svg',
+  Curious: '/star/01-curious.png',
+  Zap: '/star/02-zap.png',
+  Sweat: '/star/03-sweat.png',
+  Ping: '/star/04-ping.png',
+  Soft: '/star/05-soft.png',
+  Sad: '/star/06-sad.png',
 }
 
 const MOOD_CLASSES: Record<Mood, string> = {
