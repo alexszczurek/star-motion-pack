@@ -14,31 +14,11 @@ const MOOD_IMAGES: Record<Mood, string> = {
   Sad: '/star/06-sad.png',
 }
 
-const MOOD_CLASSES: Record<Mood, string> = {
-  Curious: 'idle-curious',
-  Zap: 'idle-zap',
-  Sweat: 'idle-sweat',
-  Ping: 'idle-ping',
-  Soft: 'idle-soft',
-  Sad: 'idle-sad',
-}
-
 function App() {
   const [mood, setMood] = useState<Mood>('Curious')
   const [isAuto, setIsAuto] = useState(false)
   const [speed, setSpeed] = useState(1)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  })
   const autoRef = useRef<number | null>(null)
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [])
 
   useEffect(() => {
     document.documentElement.style.setProperty('--speed', String(speed))
@@ -60,7 +40,7 @@ function App() {
       return
     }
 
-    const intervalMs = 2400 / speed
+    const intervalMs = 2800 / speed
     autoRef.current = window.setInterval(() => {
       setMood((current) => MOODS[(MOODS.indexOf(current) + 1) % MOODS.length])
     }, intervalMs)
@@ -78,21 +58,16 @@ function App() {
     setMood(newMood)
   }
 
-  const starClasses = [
-    'star',
-    !prefersReducedMotion ? MOOD_CLASSES[mood] : '',
-  ].filter(Boolean).join(' ')
-
   return (
     <div className="stage">
       <div className="star-container">
-        <div className={starClasses}>
+        <div className="star">
           {MOODS.map((m) => (
             <img
               key={m}
               src={MOOD_IMAGES[m]}
               alt=""
-              className={m === mood ? 'on' : ''}
+              className={`face face-${m.toLowerCase()}${m === mood ? ' on' : ''}`}
               draggable={false}
             />
           ))}
