@@ -31,6 +31,8 @@ function App() {
       const img = new Image()
       img.src = src
     })
+    const pupils = new Image()
+    pupils.src = "/star/01-curious-pupils.png"
   }, [])
 
   useEffect(() => {
@@ -83,6 +85,7 @@ function App() {
               draggable={false}
             />
           ))}
+          <img className={'pupils' + (mood === 'Curious' ? ' on' : '')} src="/star/01-curious-pupils.png" alt="" draggable={false} />
           <div className="fx" aria-hidden>
             <span className="bit" />
             <span className="bit" />

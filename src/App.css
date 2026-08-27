@@ -137,6 +137,48 @@
 
 .star img.face.on { opacity: 1; }
 
+.star img.pupils {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: auto;
+  height: 100%;
+  max-width: none;
+  object-fit: unset;
+  opacity: 0;
+  transform: translateX(-50%);
+  transform-origin: 50% 58%;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.star img.pupils.on {
+  opacity: 1;
+  animation: curious-look 5.5s ease-in-out infinite;
+}
+
+@keyframes curious-look {
+  0%, 14% {
+    transform: translate(calc(-50% + 0%), 0%);
+  }
+  24%, 38% {
+    transform: translate(calc(-50% + 2.5%), 0.15%);
+  }
+  48%, 62% {
+    transform: translate(calc(-50% - 2.5%), 0.2%);
+  }
+  72%, 82% {
+    transform: translate(calc(-50% + 0%), -2%);
+  }
+  100% {
+    transform: translate(calc(-50% + 0%), 0%);
+  }
+}
+
+
 /* Same body height. Wide frames just stick out sideways. */
 .star img.face-curious { height: 100%; }
 .star img.face-sweat { height: 96%; top: 2%; }
@@ -144,15 +186,6 @@
 .star img.face-ping { height: 114%; top: -4%; }
 .star img.face-soft { height: 102%; }
 .star img.face-sad { height: 102%; }
-
-.star[data-mood="curious"] .face-curious.on {
-  animation: look 3.4s ease-in-out infinite;
-}
-@keyframes look {
-  0%, 100% { transform: translateX(-50%) rotate(0deg); }
-  28% { transform: translateX(-50%) rotate(-2deg); }
-  68% { transform: translateX(-50%) rotate(2deg); }
-}
 
 .star[data-mood="zap"] .face-zap.on {
   animation: jolt 0.5s cubic-bezier(0.22, 0.8, 0.3, 1) infinite;
@@ -489,5 +522,9 @@
     filter: none !important;
   }
   .star img.face { transition: none; }
+  .star img.pupils {
+    animation: none !important;
+    transform: translateX(-50%) !important;
+  }
   .fx { display: none; }
 }
